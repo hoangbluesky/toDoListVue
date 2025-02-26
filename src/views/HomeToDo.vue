@@ -14,9 +14,7 @@ const handleRemoveTask = async (id, index) => {
     fetToDo();
 };
 
-const editTask = (index) => {
-    doEdit.value = { ...dataToDo.value[index] };
-};
+
 
 const editToDo = async (value) => {
     const { id, ...data } = value;
@@ -40,9 +38,9 @@ onMounted(fetToDo);
         </div>
         <TableToDo 
             :dataToDo="dataToDo"
-            :editTask="editTask"
-            :removeTask="handleRemoveTask"
-            :editToDo="editToDo"
+            @editTask="editTask"
+            @removeTask="handleRemoveTask"
+            @editToDo="editToDo"
             :searchText="searchText"
         />   
     </main>

@@ -4,13 +4,12 @@ import { defineProps, ref, defineEmits, } from 'vue';
 // Nhận props từ component cha
 const props = defineProps({
     dataToDo: Array,
-    editTask: Function,
-    removeTask: Function,
-    editToDo: Function,
     searchText: String
 });
 
+const emit = defineEmits(["removeTask", "editToDo"]);
 // Biến tạm để lưu dữ liệu đang chỉnh sửa
+
 const doEdit = ref({});
 const restVal = () => {
     doEdit.value = {};
@@ -67,11 +66,11 @@ const search = (event) => {
                 <td>{{ task.name }}</td>
                 <td>{{ task.describe }}</td>
                 <td class="text-center">
-                    <button @click="doEdit = { ...task }; props.editTask(index)" class="btn btn-warning btn-sm me-2"
+                    <button @click="doEdit = { ...task };" class="btn btn-warning btn-sm me-2"
                         data-bs-toggle="modal" data-bs-target="#editModal">
                         ✏️ Edit
                     </button>
-                    <button @click="props.removeTask(task.id)" class="btn btn-danger btn-sm">❌ Remove</button>
+                    <button @click="emit('removeTask', task.id)" class="btn btn-danger btn-sm">❌ Remove</button>
                 </td>
             </tr>
 
@@ -101,7 +100,7 @@ const search = (event) => {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button @click="() => {
-                        props.editToDo(doEdit);
+                        emit('editToDo', doEdit);
                         restVal()
                     }" type="button" class="btn btn-primary">Save</button>
                 </div>

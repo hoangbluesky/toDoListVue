@@ -1,17 +1,12 @@
 [
   {
     "id": 1,
-    "name": "Học bài",
-    "describe": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    "name": "Đi chơi",
+    "describe": "Lorem Ipsum is simply "
   },
   {
     "id": 2,
-    "name": "Đi chơi",
-    "describe": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-  },
-  {
-    "id": 3,
     "name": "Đá bóng",
-    "describe": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    "describe": "Lorem Ipsum is simply dummy "
   }
 ]
