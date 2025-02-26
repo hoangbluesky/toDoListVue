@@ -7,7 +7,6 @@ const addTask = async () => {
     if (!name || !describe) {
         alert("Please fill in all fields");
     } else {
-        console.log(name, describe);
         try {
             const response = await fetch('http://localhost:3000/tasks', {
                 method: 'POST',

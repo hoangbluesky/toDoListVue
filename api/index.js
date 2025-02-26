@@ -1,58 +1,85 @@
 import express from "express";
 import cors from "cors";
+import fs from "fs";
 
 const app = express();
 const port = 3000;
+const filePath = "tasks.json";
 
 app.use(cors());
-app.use(express.json()); // Thêm middleware để xử lý JSON
+app.use(express.json()); // Middleware để xử lý JSON
 
-// Dữ liệu JSON
-const tasks = [
-    { id: 1, name: "Task 1", describe: "Task 1 description" },
-    { id: 2, name: "Task 2", describe: "Task 2 description" },
-];
+// Hàm đọc dữ liệu từ file
+const readTasks = () => {
+    try {
+        const data = fs.readFileSync(filePath, "utf8");
+        return JSON.parse(data);
+    } catch (error) {
+        return []; // Trả về mảng rỗng nếu file chưa tồn tại
+    }
+};
 
-// API GET để lấy danh sách tasks
+// Hàm ghi dữ liệu vào file
+const writeTasks = (tasks) => {
+    fs.writeFileSync(filePath, JSON.stringify(tasks, null, 2), "utf8");
+};
+
+// API GET - Lấy danh sách tasks
 app.get("/tasks", (req, res) => {
-    res.json(tasks);
+    res.json(readTasks());
 });
 
-// API POST để thêm task mới
+// API POST - Thêm task mới
 app.post("/tasks", (req, res) => {
     const { name, describe } = req.body;
-
     if (!name || !describe) {
         return res.status(400).json({ error: "Missing required fields" });
     }
 
+    let tasks = readTasks();
     const newTask = { id: tasks.length + 1, name, describe };
     tasks.push(newTask);
+    writeTasks(tasks);
 
     res.status(201).json(newTask);
 });
 
+// API PUT - Sửa task theo ID
 app.put("/tasks/:id", (req, res) => {
-    const taskId = parseInt(req.body.id);
+    const taskId = parseInt(req.params.id);
     const { name, describe } = req.body;
-    
+
+    let tasks = readTasks();
     const taskIndex = tasks.findIndex((task) => task.id === taskId);
-    
+
     if (taskIndex === -1) {
         return res.status(404).json({ error: "Task not found" });
     }
-    
-    tasks[taskIndex] = {...tasks[taskIndex], name, describe };
-    res.status(200).json({ message: "Task edit successfully" });
 
-})
+    tasks[taskIndex] = { ...tasks[taskIndex], name, describe };
+    writeTasks(tasks);
 
-app.delete("/tasks/:id", (req, res) => {
-    const taskId = parseInt(req.params.id);
-    tasks.splice(taskId, 1);
-    res.status(200).json({ message: "Task deleted successfully" });
+    res.status(200).json({ message: "Task edited successfully" });
 });
 
+// API DELETE - Xóa task theo ID
+app.delete("/tasks/:id", (req, res) => {
+    const taskId = parseInt(req.params.id);
+    let tasks = readTasks();
+
+    const filteredTasks = tasks.filter((task) => 
+        task.id != taskId
+);
+    if (filteredTasks.length === tasks.length) {
+        return res.status(404).json({ error: "Task not found" });
+    }
+    const updatedTasks = filteredTasks.map((task, index) => ({
+        ...task,
+        id: index + 1,
+    }));
+    writeTasks(updatedTasks);
+    res.status(200).json({ message: "Task deleted successfully" });
+});
 
 // Chạy server
 app.listen(port, () => {

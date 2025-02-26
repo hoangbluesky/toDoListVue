@@ -1,11 +1,14 @@
 <script setup>
+import { ref,onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
+
+
 </script>
 
 <template>
   <div class="container-header container">
-    <div class="container-todo mt-4">
-      <header class="mt-1 d-flex justify-content-between text-center align-items-center">
+    <div class="container-todo">
+      <header class=" d-flex justify-content-between text-center align-items-center">
         <div class="logo">
           <img class="logo" width="100" height="100" src="@/assets/logo.svg" alt="vue-logo">
         </div>
