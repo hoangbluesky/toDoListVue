@@ -49,9 +49,19 @@ const search = (event) => {
             </tr>
         </thead>
         <tbody>
-            <tr v-if="dataToDo.length === 0">
-                <td colspan="4" class="text-center text-muted fst-italic">No Jobs Available</td>
+            <tr v-if="dataToDo.length === 0" class="text-center">
+                <td>0</td>
+                <td>Data Ảo </td>
+                <td>Data chỉ để test KHÔNG tồn tại công việc </td>
+                <td class="text-center">
+                    <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editModal">
+                        ✏️ Edit
+                    </button>
+                    <button class="btn btn-danger btn-sm">❌ Remove</button>
+                </td>
+                
             </tr>
+
             <tr class="text-center infors" v-for="(task, index) in dataToDo" :key="index">
                 <td>{{ index + 1 }}</td>
                 <td>{{ task.name }}</td>
@@ -64,6 +74,7 @@ const search = (event) => {
                     <button @click="props.removeTask(task.id)" class="btn btn-danger btn-sm">❌ Remove</button>
                 </td>
             </tr>
+
         </tbody>
     </table>
 
