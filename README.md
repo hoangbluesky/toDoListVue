@@ -20,13 +20,13 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 
 ## Project Setup
 Mở termiral EX: E:\ThucTap\VueJS\toDoList> 
-``` sh: RUN
+``` sh:
 npm install
 ```
 ### Run api:
 Sau khi run npm install. Tiếp tục: cd api 
 =>>> mở termiral EX: E:\ThucTap\VueJS\toDoList\api>
-Run:  npm start.
+npm start
 
 ### Compile and Hot-Reload for Development
 Mở 1 terminal mới E:\ThucTap\VueJS\toDoList> 
